@@ -1,0 +1,240 @@
+import json
+import os
+import sys
+import time
+from PIL import Image
+
+
+def cls():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+# how can i make this a function and use x outside it
+animation_preference = input("Do you want fancy typing animations? Type [yes/no] -->")
+if animation_preference == "yes":
+    x = 0.04
+if animation_preference == "no":
+    x = 0
+    cls()
+
+
+def prettywords():
+    for char in message:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(x)
+    print(" ")
+
+
+users = {}
+message = "Hello! Welcome to my project!"
+prettywords()
+time.sleep(0.5)
+message = "This app allows you to publish, solve and discuss your favourite science problems."
+prettywords()
+time.sleep(0.5)
+message = "But before we get started, please enter a preferred username."
+prettywords()
+time.sleep(0.5)
+
+users["username"] = input("Type your answer here -->")
+file = open("users.json", "w")
+file.write(json.dumps(users))
+file.close()
+
+print("Nice to meet you", users["username"], "!")
+time.sleep(0.5)
+message = "You will be shortly redirected to the main menu"
+prettywords()
+time.sleep(1)
+cls()
+
+
+with open('problems.json') as json_file:
+    problems = json.load(json_file)
+
+
+def main_menu():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    print("<<MAIN MENU>>")
+    print("-------------------------------------------------------")
+    time.sleep(0.5)
+    message_main = ('''
+Please choose an action:
+
+If you want to view the list of problems type [list]
+If you want to add a problem to the database type [add]''')
+    prettywords()
+    time.sleep(0.2)
+
+    def question1():
+        answer1 = input("Type your answer here -->").lower()
+        if answer1 == "list":
+            cls()
+            time.sleep(0.2)
+            subjects()
+        if answer1 != "add" and answer1 != "list":
+            print("Invalid input. Please try again")
+            question1()
+
+    question1()
+
+
+def subjects():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    print("<<SUBJECTS>>")
+    print("-------------------------------------------------------")
+    message_main = "Please choose one of the subjects"
+    prettywords()
+    time.sleep(0.2)
+    for key in problems.keys():
+        print(key)
+        time.sleep(0.5)
+    message_main = "If you want to go back to main menu type [main]"
+    prettywords()
+
+    def question2():
+        answer2 = input("Type your answer here -->").lower()
+        if answer2 == "main":
+            cls()
+            main_menu()
+        if answer2 == "programming":
+            cls()
+            programming()
+        if answer2 == "mathematics":
+            cls()
+            mathematics()
+        if answer2 == "physics":
+            cls()
+            physics()
+        if answer2 != "programming" and answer2 != "physics" and answer2 != "mathematics":
+            print("Invalid input. Please try again")
+            question2()
+
+    question2()
+
+
+def programming():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    print("<<PROGRAMMING>>")
+    print("-------------------------------------------------------")
+    message_main = "Please choose a problem"
+    prettywords()
+    for key in problems["programming"].keys():
+        print(problems['programming'][key]['title'])
+        time.sleep(0.5)
+    message_main = "If you want to go back to main menu type [main]"
+    prettywords()
+    message_main = "If you want to go back to subjects type [subjects]"
+    prettywords()
+    answer3 = input("Please type your answer here -->")
+    if answer3 == "subjects":
+        cls()
+        subjects()
+    if answer3 == "main":
+        cls()
+        main_menu()
+    else:
+        cls()
+        print(problems['programming'][answer3]['title'])
+        print("-------------------------------------------------------")
+        print(problems['programming'][answer3]['requirement'])
+        if problems['programming'][answer3]['image'] == "yes":
+            image = Image.open(answer3 + '.png')
+            image.show()
+        answer_problem_programming = input("stop")
+
+
+def physics():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    print("<<PHYSICS>>")
+    print("-------------------------------------------------------")
+    message_main = "Please choose a problem"
+    prettywords()
+    for key in problems["physics"].keys():
+        print(problems["physics"][key]["title"])
+        time.sleep(0.5)
+    message_main = "If you want to go back to main menu type [main]"
+    prettywords()
+    message_main = "If you want to go back to subjects type [subjects]"
+    prettywords()
+    answer3 = input("Please type your answer here -->")
+    if answer3 == "subjects":
+        cls()
+        subjects()
+    if answer3 == "main":
+        cls()
+        main_menu()
+    else:
+        cls()
+        print(problems['physics'][answer3]['title'])
+        print("-------------------------------------------------------")
+        print(problems['physics'][answer3]['requirement'])
+        if problems['physics'][answer3]['image'] == "yes":
+            image = Image.open(answer3 + '.png')
+            image.show()
+        answer_problem_programming = input("stop")
+
+
+def mathematics():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    print("<<MATHEMATICS>>")
+    print("-------------------------------------------------------")
+    message_main = "Please choose a problem"
+    prettywords()
+    for key in problems["mathematics"].keys():
+        print(problems["mathematics"][key]["title"])
+        time.sleep(0.5)
+    message_main = "If you want to go back to main menu type [main]"
+    prettywords()
+    message_main = "If you want to go back to subjects type [subjects]"
+    prettywords()
+    answer3 = input("Please type your answer here -->")
+    if answer3 == "subjects":
+        cls()
+        subjects()
+    if answer3 == "main":
+        cls()
+        main_menu()
+    else:
+        cls()
+        print(problems['mathematics'][answer3]['title'])
+        print("-------------------------------------------------------")
+        print(problems['mathematics'][answer3]['requirement'])
+        if problems['mathematics'][answer3]['image'] == "yes":
+            image = Image.open(answer3 + '.png')
+            image.show()
+        answer_problem_programming = input("stop")
+
+
+main_menu()
