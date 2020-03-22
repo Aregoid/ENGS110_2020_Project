@@ -49,7 +49,6 @@ prettywords()
 time.sleep(1)
 cls()
 
-
 with open('problems.json') as json_file:
     problems = json.load(json_file)
 
@@ -79,11 +78,76 @@ If you want to add a problem to the database type [add]''')
             cls()
             time.sleep(0.2)
             subjects()
+        if answer1 == "add":
+            cls()
+            time.sleep(0.2)
+            add()
         if answer1 != "add" and answer1 != "list":
             print("Invalid input. Please try again")
             question1()
 
     question1()
+
+
+def add():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    def explanation():
+        print("In order to simplify the interaction between the machine and the user, each problem is given a unique "
+              "codename. A codename is a shortened, version of the title, that is much easier to type than the title "
+              "itself. When choosing the problem, only its codename has to be entered (see the example below)")
+        print('''                   Hello World [helloworld]
+                     ^^^          ^^^
+                    Title       Codename
+                ''')
+
+    print("<<ADDITION OF A PROBLEM>>")
+    print("-------------------------------------------------------")
+    message_main = "From which subject do you wish to add a problem?"
+    prettywords()
+    for key in problems.keys():
+        print(key)
+        time.sleep(0.5)
+    message_main = "If you want to go back to main menu type [main]"
+    prettywords()
+    answer3 = input("Type you answer here -->").lower()
+    if answer3 != "programming" and answer3 != "physics" and answer3 != "mathematics" and answer3 != "main":
+        print("Please type one of the following: mathematics, physics, programming, main ")
+        time.sleep(2)
+        cls()
+        add()
+
+    cls()
+    expl = input("Do you wish to see an explanation? [yes/no] >>")
+    if expl == "yes":
+        explanation()
+    title = input("Please enter a title for the problem >>")
+    codename = input("Please enter a codename >>").lower()
+    requirement = input("Please enter a condition for the problem >>")
+    message_main = "Do you need to add an image? Type [yes/no]"
+    prettywords()
+    image_or_not = input("Type the answer here >>").lower()
+    if image_or_not == "yes":
+        message_main = "Please rename the image to" + codename + "and move it to the folder containing the " \
+                                                                 "application "
+        prettywords()
+    message_main = "Are you sure you want to add the problem? Type [yes/no]"
+    prettywords()
+    confirm = input("Type your answer here >>").lower()
+    if confirm == "yes":
+        if answer3 == "mathematics":
+            s = input("stop")
+        if answer3 == "physics":
+            s = input("stop")
+        if answer3 == "programming":
+            s = input("stop")
+        if answer3 == "main":
+            s = input("stop")
 
 
 def subjects():
