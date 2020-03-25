@@ -4,18 +4,29 @@ import sys
 import time
 from PIL import Image
 
+with open('problems.json') as json_file:
+    problems = json.load(json_file)
+
 
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-# how can i make this a function and use x outside it
-animation_preference = input("Do you want fancy typing animations? Type [yes/no] -->")
-if animation_preference == "yes":
-    x = 0.04
-if animation_preference == "no":
-    x = 0
-    cls()
+while True:
+    animation_preference = input("Do you want fancy typing animations? Type [yes/no] -->")
+    if animation_preference == "yes":
+        x = 0.04
+        cls()
+        break
+    else:
+        if animation_preference == "no":
+            x = 0
+            cls()
+            break
+        else:
+            print("Invalid input, please type [yes/no]")
+            time.sleep(1)
+            cls()
 
 
 def prettywords():
@@ -36,8 +47,8 @@ time.sleep(0.5)
 message = "But before we get started, please enter a preferred username."
 prettywords()
 time.sleep(0.5)
-
 users["username"] = input("Type your answer here -->")
+
 file = open("users.json", "w")
 file.write(json.dumps(users))
 file.close()
@@ -48,9 +59,6 @@ message = "You will be shortly redirected to the main menu"
 prettywords()
 time.sleep(1)
 cls()
-
-with open('problems.json') as json_file:
-    problems = json.load(json_file)
 
 
 def main_menu():
