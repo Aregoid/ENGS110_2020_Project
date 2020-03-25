@@ -129,13 +129,14 @@ def add():
         time.sleep(2)
         cls()
         add()
-
+    if answer3 == "main":
+        main_menu()
     cls()
     expl = input("Do you wish to see an explanation? [yes/no] >>")
     if expl == "yes":
         explanation()
     title = input("Please enter a title for the problem >>")
-    codename = input("Please enter a codename >>").lower()
+    codename = input("Please enter a codename for the problem >>").lower()
     requirement = input("Please enter a condition for the problem >>")
     message_main = "Do you need to add an image? Type [yes/no]"
     prettywords()
@@ -149,13 +150,26 @@ def add():
     confirm = input("Type your answer here >>").lower()
     if confirm == "yes":
         if answer3 == "mathematics":
-            s = input("stop")
+            # how to edit problems.json?
+            message_main = "Problem addition complete! Returning to Main Menu"
+            prettywords()
+            time.sleep(1)
+            cls()
+            main_menu()
         if answer3 == "physics":
-            s = input("stop")
+            # how to edit problems.json?
+            message_main = "Problem addition complete! Returning to Main Menu"
+            prettywords()
+            time.sleep(1)
+            cls()
+            main_menu()
         if answer3 == "programming":
-            s = input("stop")
-        if answer3 == "main":
-            s = input("stop")
+            # how to edit problems.json?
+            message_main = "Problem addition complete! Returning to Main Menu"
+            prettywords()
+            time.sleep(1)
+            cls()
+            main_menu()
 
 
 def subjects():
