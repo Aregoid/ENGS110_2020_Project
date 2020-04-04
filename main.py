@@ -3,20 +3,28 @@ import os
 import sys
 import time
 from PIL import Image
-from colorama import Style, Fore, Back, init
+from colorama import Style, Fore, init
 
 init(autoreset=True)
 
 with open('problems.json') as json_file:
     problems = json.load(json_file)
 
+users = {}
+
 
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+sample = "Do you want fancy typing animations like this?"
+for char in sample:
+    sys.stdout.write(char)
+    sys.stdout.flush()
+    time.sleep(0.04)
+
 while True:
-    animation_preference = input("Do you want fancy typing animations? Type [yes/no] -->")
+    animation_preference = input(" Type [yes/no] >>")
     if animation_preference == "yes":
         x = 0.04
         y = 1
@@ -43,7 +51,6 @@ def prettywords():
     print(" ")
 
 
-users = {}
 message = "Hello! Welcome to my project!"
 prettywords()
 time.sleep(z)
@@ -76,31 +83,39 @@ def main_menu():
             time.sleep(x)
         print(" ")
 
-    print(Style.BRIGHT + "<<MAIN MENU>>")
-    print(Style.BRIGHT + "-------------------------------------------------------")
-    time.sleep(0.5)
+    message_main = Style.BRIGHT + "<<MAIN MENU>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
+    time.sleep(z)
     message_main = ('''Please choose an action:
 
 If you want to view the list of problems type [list]
-If you want to add a problem to the database type [add]''')
+If you want to add a problem to the database type [add]
+If you want to delete a problem type [del]
+''')
     prettywords()
     time.sleep(t)
 
-    def question1():
+    while True:
         answer1 = input("Type your answer here >>").lower()
         if answer1 == "list":
             cls()
             time.sleep(t)
             subjects()
+            break
         if answer1 == "add":
             cls()
             time.sleep(t)
             add()
-        if answer1 != "add" and answer1 != "list":
+            break
+        if answer1 == "del":
+            cls()
+            time.sleep(t)
+            delete()
+            break
+        else:
             print(Fore.RED + "Invalid input! Please try again.")
-            question1()
-
-    question1()
 
 
 def add():
@@ -120,8 +135,10 @@ def add():
                     Title       Codename
                 ''')
 
-    print(Style.BRIGHT + "<<ADDITION OF A PROBLEM>>")
-    print(Style.BRIGHT + "-------------------------------------------------------")
+    message_main = Style.BRIGHT + "<<ADDITION OF A PROBLEM>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
     message_main = "From which subject do you wish to add a problem?"
     prettywords()
     time.sleep(t)
@@ -174,9 +191,10 @@ def add():
                     'title'] = title
                 problems['mathematics'][codename]['requirement'] = requirement
                 problems['mathematics'][codename]['image'] = image_or_not
+                problems['mathematics'][codename]['contributor'] = username
                 with open('problems.json', 'w') as outfile:
                     json.dump(problems, outfile)
-                message_main = "Problem addition complete! Returning to Main Menu"
+                message_main = "Problem addition complete! Returning to Main Menu..."
                 prettywords()
                 time.sleep(1)
                 cls()
@@ -188,7 +206,10 @@ def add():
                     'title'] = title
                 problems['physics'][codename]['requirement'] = requirement
                 problems['physics'][codename]['image'] = image_or_not
-                message_main = "Problem addition complete! Returning to Main Menu"
+                problems['physics'][codename]['contributor'] = username
+                with open('problems.json', 'w') as outfile:
+                    json.dump(problems, outfile)
+                message_main = "Problem addition complete! Returning to Main Menu..."
                 prettywords()
                 time.sleep(1)
                 cls()
@@ -200,18 +221,157 @@ def add():
                     'title'] = title
                 problems['programming'][codename]['requirement'] = requirement
                 problems['programming'][codename]['image'] = image_or_not
-                message_main = "Problem addition complete! Returning to Main Menu"
+                problems['programming'][codename]['contributor'] = username
+                with open('problems.json', 'w') as outfile:
+                    json.dump(problems, outfile)
+                message_main = "Problem addition complete! Returning to Main Menu..."
                 prettywords()
                 time.sleep(1)
                 cls()
                 main_menu()
                 break
         if confirm == "no":
-            message_main = "Problem addition canceled! Returning to Main Menu"
+            print(Style.BRIGHT + Fore.YELLOW + "Problem addition canceled! Returning to Main Menu")
             time.sleep(1)
             cls()
             main_menu()
         else:
+            print(Fore.RED + "Invalid input! Please try again.")
+
+
+def delete():
+    def prettywords():
+        for char in message_main:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+    message_main = "From which subject do you wish to delete a problem?"
+    prettywords()
+    time.sleep(t)
+    for key in problems.keys():
+        print(key)
+        time.sleep(t)
+    message_main = "If you want to go back to Main Menu type [main]"
+    prettywords()
+    while True:
+        answer3 = input("Type you answer here >>")
+        if answer3 == "mathematics":
+            message_main = "To delete the problem, please enter its codename."
+            prettywords()
+            time.sleep(t)
+            message_main = "If you want to stop the procedure type [main]"
+            prettywords()
+            time.sleep(t)
+            while True:
+                answer4 = input("Type your answer here>>")
+                if answer4 in problems['mathematics']:
+                    if username == problems['mathematics'][answer4]['contributor']:
+                        del problems['mathematics'][answer4]
+                        with open('problems.json', 'w') as outfile:
+                            json.dump(problems, outfile)
+                        message_main = "Problem deletion complete. Returning to Main Menu..."
+                        prettywords()
+                        time.sleep(1)
+                        cls()
+                        main_menu()
+                        break
+                    if answer4 == "main":
+                        message_main = "Problem deletion cancelled. Returning to Main Menu..."
+                        prettywords()
+                        time.sleep(1)
+                        cls()
+                        main_menu()
+                        break
+                    else:
+                        print(Fore.RED + "You are not the contributor of this problem, therefore you can't delete it.")
+                        print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
+                else:
+                    print(Fore.RED + "No such problem in the given category")
+                    print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
+                break
+
+        if answer3 == "physics":
+            message_main = "To delete the problem, please enter its codename."
+            prettywords()
+            time.sleep(t)
+            message_main = "If you want to stop the procedure type [main]"
+            prettywords()
+            time.sleep(t)
+            while True:
+                answer4 = input("Type your answer here>>")
+                if answer4 in problems['physics']:
+                    if username == problems['physics'][answer4]['contributor']:
+                        del problems['physics'][answer4]
+                        with open('problems.json', 'w') as outfile:
+                            json.dump(problems, outfile)
+                        message_main = "Problem deletion complete. Returning to Main Menu..."
+                        prettywords()
+                        time.sleep(1)
+                        cls()
+                        main_menu()
+                        break
+                    if answer4 == "main":
+                        message_main = "Problem deletion cancelled. Returning to Main Menu..."
+                        prettywords()
+                        time.sleep(1)
+                        cls()
+                        main_menu()
+                        break
+                    else:
+                        print(
+                            Fore.RED + "You are not the contributor of this problem, therefore you can't delete it.")
+                        print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
+                else:
+                    print(Fore.RED + "No such problem in the given category")
+                    print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
+                break
+
+        if answer3 == "programming":
+            message_main = "To delete the problem, please enter its codename."
+            prettywords()
+            time.sleep(t)
+            message_main = "If you want to stop the procedure type [main]"
+            prettywords()
+            time.sleep(t)
+            while True:
+                answer4 = input("Type your answer here>>")
+                if answer4 in problems['programming']:
+                    if username == problems['programming'][answer4]['contributor']:
+                        del problems['programming'][answer4]
+                        with open('problems.json', 'w') as outfile:
+                            json.dump(problems, outfile)
+                        message_main = "Problem deletion complete. Returning to Main Menu..."
+                        prettywords()
+                        time.sleep(1)
+                        cls()
+                        main_menu()
+                        break
+                    if answer4 == "main":
+                        message_main = "Problem deletion cancelled. Returning to Main Menu..."
+                        prettywords()
+                        time.sleep(1)
+                        cls()
+                        main_menu()
+                        break
+                    else:
+                        print(
+                            Fore.RED + "You are not the contributor of this problem, therefore you can't delete it.")
+                        print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
+                else:
+                    print(Fore.RED + "No such problem in the given category")
+                    print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
+                break
+
+        if answer3 == "main":
+            message_main = "Problem deletion cancelled. Returning to Main Menu..."
+            prettywords()
+            time.sleep(1)
+            cls()
+            main_menu()
+            break
+        if not answer3 == "main" and answer3 == "programming" and answer3 == "physics" and "mathematics":
             print(Fore.RED + "Invalid input! Please try again.")
 
 
@@ -223,9 +383,11 @@ def subjects():
             time.sleep(x)
         print(" ")
 
-    print(Style.BRIGHT + "<<SUBJECTS>>")
-    print(Style.BRIGHT + "-------------------------------------------------------")
-    message_main = "Please choose one of the subjects"
+    message_main = Style.BRIGHT + "<<SUBJECTS>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
+    message_main = "Please choose one of the subjects:"
     prettywords()
     time.sleep(t)
     for key in problems.keys():
@@ -264,9 +426,11 @@ def programming():
             time.sleep(x)
         print(" ")
 
-    print(Style.BRIGHT + "<<PROGRAMMING>>")
-    print(Style.BRIGHT + "-------------------------------------------------------")
-    message_main = "Please choose a problem"
+    message_main = Style.BRIGHT + "<<PROGRAMMING>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
+    message_main = "Please choose a problem:"
     prettywords()
     time.sleep(t)
     for key in problems['programming']:
@@ -276,22 +440,32 @@ def programming():
     prettywords()
     message_main = "If you want to go back to subjects type " + Style.BRIGHT + "[subjects]"
     prettywords()
-    answer3 = input("Please type your answer here >>")
-    if answer3 == "subjects":
-        cls()
-        subjects()
-    if answer3 == "main":
-        cls()
-        main_menu()
-    else:
-        cls()
-        print(problems['programming'][answer3]['title'])
-        print("-------------------------------------------------------")
-        print(problems['programming'][answer3]['requirement'])
-        if problems['programming'][answer3]['image'] == "yes":
-            image = Image.open(answer3 + '.png')
-            image.show()
-        answer_problem_programming = input("stop")
+    while True:
+        answer3 = input("Please type your answer here >>")
+        if answer3 == "subjects":
+            cls()
+            subjects()
+            break
+        if answer3 == "main":
+            cls()
+            main_menu()
+            break
+        else:
+            if answer3 in problems['programming'].keys():
+                cls()
+                message_main = problems['programming'][answer3]['title']
+                prettywords()
+                message_main = "-------------------------------------------------------"
+                prettywords()
+                message_main = problems['programming'][answer3]['requirement']
+                prettywords()
+                if problems['programming'][answer3]['image'] == "yes":
+                    image = Image.open(answer3 + '.png')
+                    image.show()
+                answer_problem_programming = input("stop")
+                break
+            else:
+                print(Fore.RED + "Invalid input! Please try again.")
 
 
 def physics():
@@ -302,9 +476,11 @@ def physics():
             time.sleep(x)
         print(" ")
 
-    print(Style.BRIGHT + "<<PHYSICS>>")
-    print(Style.BRIGHT + "-------------------------------------------------------")
-    message_main = "Please choose a problem"
+    message_main = Style.BRIGHT + "<<PHYSICS>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
+    message_main = "Please choose a problem:"
     prettywords()
     time.sleep(t)
     for key in problems['physics']:
@@ -314,22 +490,29 @@ def physics():
     prettywords()
     message_main = "If you want to go back to subjects type " + Style.BRIGHT + "[subjects]"
     prettywords()
-    answer3 = input("Please type your answer here >>")
-    if answer3 == "subjects":
-        cls()
-        subjects()
-    if answer3 == "main":
-        cls()
-        main_menu()
-    else:
-        cls()
-        print(problems['physics'][answer3]['title'])
-        print("-------------------------------------------------------")
-        print(problems['physics'][answer3]['requirement'])
-        if problems['physics'][answer3]['image'] == "yes":
-            image = Image.open(answer3 + '.png')
-            image.show()
-        answer_problem_programming = input("stop")
+    while True:
+        answer3 = input("Please type your answer here >>")
+        if answer3 == "subjects":
+            cls()
+            subjects()
+            break
+        if answer3 == "main":
+            cls()
+            main_menu()
+            break
+        else:
+            if answer3 in problems['physics'].keys():
+                cls()
+                print(problems['physics'][answer3]['title'])
+                print("-------------------------------------------------------")
+                print(problems['physics'][answer3]['requirement'])
+                if problems['physics'][answer3]['image'] == "yes":
+                    image = Image.open(answer3 + '.png')
+                    image.show()
+                answer_problem_programming = input("stop")
+                break
+            else:
+                print(Fore.RED + "Invalid input! Please try again.")
 
 
 def mathematics():
@@ -340,9 +523,11 @@ def mathematics():
             time.sleep(x)
         print(" ")
 
-    print(Style.BRIGHT + "<<MATHEMATICS>>")
-    print(Style.BRIGHT + "-------------------------------------------------------")
-    message_main = "Please choose a problem"
+    message_main = Style.BRIGHT + "<<MATHEMATICS>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
+    message_main = "Please choose a problem:"
     prettywords()
     time.sleep(t)
     for key in problems['mathematics']:
@@ -352,22 +537,29 @@ def mathematics():
     prettywords()
     message_main = "If you want to go back to subjects type " + Style.BRIGHT + "[subjects]"
     prettywords()
-    answer3 = input("Please type your answer here >>")
-    if answer3 == "subjects":
-        cls()
-        subjects()
-    if answer3 == "main":
-        cls()
-        main_menu()
-    else:
-        cls()
-        print(problems['mathematics'][answer3]['title'])
-        print("-------------------------------------------------------")
-        print(problems['mathematics'][answer3]['requirement'])
-        if problems['mathematics'][answer3]['image'] == "yes":
-            image = Image.open(answer3 + '.png')
-            image.show()
-        answer_problem_programming = input("stop")
+    while True:
+        answer3 = input("Please type your answer here >>")
+        if answer3 == "subjects":
+            cls()
+            subjects()
+            break
+        if answer3 == "main":
+            cls()
+            main_menu()
+            break
+        else:
+            if answer3 in problems['mathematics'].keys():
+                cls()
+                print(problems['mathematics'][answer3]['title'])
+                print("-------------------------------------------------------")
+                print(problems['mathematics'][answer3]['requirement'])
+                if problems['mathematics'][answer3]['image'] == "yes":
+                    image = Image.open(answer3 + '.png')
+                    image.show()
+                answer_problem_programming = input("stop")
+                break
+            else:
+                print(Fore.RED + "Invalid input! Please try again.")
 
 
 main_menu()
