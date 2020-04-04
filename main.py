@@ -173,7 +173,7 @@ def add():
         prettywords()
         image_or_not = input("Type the answer here >>").lower()
         if image_or_not == "yes":
-            message_main = "Please rename the image to " + "<" + codename + ".jpg>" + " and move it to " + os.getcwd()
+            message_main = "Please rename the image to " + "<" + codename + ".png>" + " and move it to " + os.getcwd()
             prettywords()
             break
         if image_or_not == "no":
@@ -275,6 +275,8 @@ def delete():
                     break
                 if answer4 in problems['mathematics']:
                     if username == problems['mathematics'][answer4]['contributor']:
+                        if problems['mathematics'][answer4]['image'] == "yes":
+                            os.remove(answer4 + '.png')
                         del problems['mathematics'][answer4]
                         with open('problems.json', 'w') as outfile:
                             json.dump(problems, outfile)
@@ -309,6 +311,8 @@ def delete():
                     break
                 if answer4 in problems['physics']:
                     if username == problems['physics'][answer4]['contributor']:
+                        if problems['physics'][answer4]['image'] == "yes":
+                            os.remove(answer4 + '.png')
                         del problems['physics'][answer4]
                         with open('problems.json', 'w') as outfile:
                             json.dump(problems, outfile)
@@ -344,6 +348,8 @@ def delete():
                     break
                 if answer4 in problems['programming']:
                     if username == problems['programming'][answer4]['contributor']:
+                        if problems['mathematics'][answer4]['image'] == "yes":
+                            os.remove(answer4 + '.png')
                         del problems['programming'][answer4]
                         with open('problems.json', 'w') as outfile:
                             json.dump(problems, outfile)
