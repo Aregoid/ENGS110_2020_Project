@@ -266,6 +266,13 @@ def delete():
             time.sleep(t)
             while True:
                 answer4 = input("Type your answer here>>")
+                if answer4 == "main":
+                    message_main = "Problem deletion cancelled. Returning to Main Menu..."
+                    prettywords()
+                    time.sleep(1)
+                    cls()
+                    main_menu()
+                    break
                 if answer4 in problems['mathematics']:
                     if username == problems['mathematics'][answer4]['contributor']:
                         del problems['mathematics'][answer4]
@@ -277,20 +284,12 @@ def delete():
                         cls()
                         main_menu()
                         break
-                    if answer4 == "main":
-                        message_main = "Problem deletion cancelled. Returning to Main Menu..."
-                        prettywords()
-                        time.sleep(1)
-                        cls()
-                        main_menu()
-                        break
-                    else:
+                    if not username == problems['mathematics'][answer4]['contributor']:
                         print(Fore.RED + "You are not the contributor of this problem, therefore you can't delete it.")
                         print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
-                else:
+                if answer4 not in problems['mathematics']:
                     print(Fore.RED + "No such problem in the given category")
                     print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
-                break
 
         if answer3 == "physics":
             message_main = "To delete the problem, please enter its codename."
@@ -301,6 +300,13 @@ def delete():
             time.sleep(t)
             while True:
                 answer4 = input("Type your answer here>>")
+                if answer4 == "main":
+                    message_main = "Problem deletion cancelled. Returning to Main Menu..."
+                    prettywords()
+                    time.sleep(1)
+                    cls()
+                    main_menu()
+                    break
                 if answer4 in problems['physics']:
                     if username == problems['physics'][answer4]['contributor']:
                         del problems['physics'][answer4]
@@ -312,21 +318,13 @@ def delete():
                         cls()
                         main_menu()
                         break
-                    if answer4 == "main":
-                        message_main = "Problem deletion cancelled. Returning to Main Menu..."
-                        prettywords()
-                        time.sleep(1)
-                        cls()
-                        main_menu()
-                        break
-                    else:
+                    if not username == problems['physics'][answer4]['contributor']:
                         print(
                             Fore.RED + "You are not the contributor of this problem, therefore you can't delete it.")
                         print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
-                else:
+                if answer4 not in problems['physics']:
                     print(Fore.RED + "No such problem in the given category")
                     print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
-                break
 
         if answer3 == "programming":
             message_main = "To delete the problem, please enter its codename."
@@ -337,6 +335,13 @@ def delete():
             time.sleep(t)
             while True:
                 answer4 = input("Type your answer here>>")
+                if answer4 == "main":
+                    message_main = "Problem deletion cancelled. Returning to Main Menu..."
+                    prettywords()
+                    time.sleep(1)
+                    cls()
+                    main_menu()
+                    break
                 if answer4 in problems['programming']:
                     if username == problems['programming'][answer4]['contributor']:
                         del problems['programming'][answer4]
@@ -348,21 +353,13 @@ def delete():
                         cls()
                         main_menu()
                         break
-                    if answer4 == "main":
-                        message_main = "Problem deletion cancelled. Returning to Main Menu..."
-                        prettywords()
-                        time.sleep(1)
-                        cls()
-                        main_menu()
-                        break
-                    else:
+                    if not username == problems['physics'][answer4]['contributor']:
                         print(
                             Fore.RED + "You are not the contributor of this problem, therefore you can't delete it.")
                         print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
-                else:
+                if answer4 not in problems['physics']:
                     print(Fore.RED + "No such problem in the given category")
                     print(Fore.RED + "Please enter another codename or go back to main menu by typing [main]")
-                break
 
         if answer3 == "main":
             message_main = "Problem deletion cancelled. Returning to Main Menu..."
