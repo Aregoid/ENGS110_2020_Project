@@ -157,7 +157,7 @@ Have you been previously registered? Type [yes/no]''')
         while True:
             username = input("Type your username here >>")
             if username in users['registered']:
-                print(Fore.MAGENTA + "Unfortunately, this username has already  already taken :( Please try another "
+                print(Fore.MAGENTA + "Unfortunately, this username has already been taken :( Please try another "
                                      "one...")
             else:
                 break
