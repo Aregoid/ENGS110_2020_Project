@@ -10,37 +10,173 @@ init(autoreset=True)
 with open('problems.json') as json_file:
     problems = json.load(json_file)
 
-users = {}
-
 
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-sample = "Do you want fancy typing animations like this?"
-for char in sample:
-    sys.stdout.write(char)
-    sys.stdout.flush()
-    time.sleep(0.04)
+# Detecting users/registration of new users
+if os.stat("users.json").st_size == 0:
+    sample = "Do you want fancy typing animations like this?"
+    for char in sample:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(0.04)
+    while True:
+        animation_preference = input(" Type [yes/no] >>")
+        if animation_preference == "yes":
+            x = 0.04
+            y = 1
+            z = 0.5
+            t = 0.2
+            cls()
+            break
+        elif animation_preference == "no":
+            x = 0
+            y = 0
+            z = 0
+            t = 0
+            cls()
+            break
+        else:
+            print(Fore.RED + 'Invalid input, please type [yes/no]')
 
-while True:
-    animation_preference = input(" Type [yes/no] >>")
-    if animation_preference == "yes":
-        x = 0.04
-        y = 1
-        z = 0.5
-        t = 0.2
+
+    def prettywords():
+        for char in message:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(x)
+        print(" ")
+
+
+    users = {}
+    message = "Hello! Welcome to my project!"
+    prettywords()
+    time.sleep(z)
+    message = "With the help of this app you can publish, solve and discuss problems from your favourite subject!"
+    prettywords()
+    time.sleep(z)
+    message = "But before we get started, please enter a preferred username and a password."
+    prettywords()
+    time.sleep(z)
+    username = input("Type your username here >>")
+    password = input("Type your password here >>")
+    users['registered'] = {}
+    users['registered'][username] = {}
+    users['registered'][username]['password'] = password
+    users['registered'][username]['animation'] = [x, y, z, t]
+
+    file = open("users.json", "w")
+    file.write(json.dumps(users))
+    file.close()
+
+    print("Nice to meet you " + username + "!")
+    time.sleep(z)
+    message = "You will be shortly redirected to the main menu"
+    prettywords()
+    time.sleep(1)
+    cls()
+
+else:
+    with open("users.json") as outfile:
+        users = json.load(outfile)
+    check = 0
+    print('''Existing users have been detected. 
+Have you been previously registered? Type [yes/no]''')
+    answer = input("Type your answer here>>").lower()
+    if answer == "yes":
+        while True:
+            if check == 1:
+                break
+            username = input("Please enter the username>>")
+            if username in users['registered'].keys():
+                while True:
+                    password = input("Please enter the password>>")
+                    if password == users['registered'][username]['password']:
+                        print(Fore.GREEN + 'Login successful! Opening main menu...')
+                        time.sleep(0.5)
+                        x = users['registered'][username]['animation'][0]
+                        y = users['registered'][username]['animation'][1]
+                        z = users['registered'][username]['animation'][2]
+                        t = users['registered'][username]['animation'][3]
+                        check = 1
+                        cls()
+                        break
+                    if not password == users['registered'][username]['password']:
+                        print(Fore.RED + 'Login failed: Invalid password.')
+                        time.sleep(0.5)
+            if username not in users['registered'].keys():
+                print(Fore.RED + 'No such user exists. Please reenter the username...')
+    if answer == "no":
         cls()
-        break
-    elif animation_preference == "no":
-        x = 0
-        y = 0
-        z = 0
-        t = 0
+        sample = "Do you want fancy typing animations like this?"
+        for char in sample:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(0.04)
+        while True:
+            animation_preference = input(" Type [yes/no] >>")
+            if animation_preference == "yes":
+                x = 0.04
+                y = 1
+                z = 0.5
+                t = 0.2
+                cls()
+                break
+            elif animation_preference == "no":
+                x = 0
+                y = 0
+                z = 0
+                t = 0
+                cls()
+                break
+            else:
+                print(Fore.RED + 'Invalid input, please type [yes/no]')
+
+
+        def prettywords():
+            for char in message:
+                sys.stdout.write(char)
+                sys.stdout.flush()
+                time.sleep(x)
+            print(" ")
+
+
+        with open("users.json") as outfile:
+            users = json.load(outfile)
+        message = "Hello! Welcome to my project!"
+        prettywords()
+        time.sleep(z)
+        message = "With the help of this app you can publish, solve and discuss problems from your favourite subject!"
+        prettywords()
+        time.sleep(z)
+        message = "But before we get started, please enter a preferred username and a password."
+        prettywords()
+        time.sleep(z)
+        while True:
+            username = input("Type your username here >>")
+            if username in users['registered']:
+                print(Fore.MAGENTA + "Unfortunately, this username has already  already taken :( Please try another "
+                                     "one...")
+            else:
+                break
+        password = input("Type your password here >>")
+
+        users['registered'][username] = {}
+        users['registered'][username]['password'] = password
+        users['registered'][username]['animation'] = [x, y, z, t]
+
+        file = open("users.json", "w")
+        file.write(json.dumps(users))
+        file.close()
+
+        print("Nice to meet you " + username + "!")
+        time.sleep(z)
+        print("You will be shortly redirected to the main menu")
+        prettywords()
+        time.sleep(1)
         cls()
-        break
-    else:
-        print(Fore.RED + 'Invalid input, please type [yes/no]')
 
 
 def prettywords():
@@ -49,30 +185,6 @@ def prettywords():
         sys.stdout.flush()
         time.sleep(x)
     print(" ")
-
-
-message = "Hello! Welcome to my project!"
-prettywords()
-time.sleep(z)
-message = "This app allows you to publish, solve and discuss your favourite science problems."
-prettywords()
-time.sleep(z)
-message = "But before we get started, please enter a preferred username."
-prettywords()
-time.sleep(z)
-username = input("Type your answer here >>")
-users["username"] = username
-
-file = open("users.json", "w")
-file.write(json.dumps(users))
-file.close()
-
-print("Nice to meet you " + username + "!")
-time.sleep(z)
-message = "You will be shortly redirected to the main menu"
-prettywords()
-time.sleep(1)
-cls()
 
 
 def main_menu():
@@ -154,8 +266,8 @@ def add():
         cls()
         add()
     if answer3 == "main":
+        cls()
         main_menu()
-    cls()
     while True:
         expl = input("Do you wish to see an explanation? [yes/no] >>")
         if expl == "yes":
@@ -173,8 +285,11 @@ def add():
         prettywords()
         image_or_not = input("Type the answer here >>").lower()
         if image_or_not == "yes":
-            message_main = "Please rename the image to " + "<" + codename + ".png>" + " and move it to " + os.getcwd()
+            message_main = "Please rename the image to " + "<" + codename + ".png>" + " and move it to " + os.getcwd() + "\images"
             prettywords()
+            answer = input("Do you want to open the directory right now? Type [yes/no] >>")
+            if answer == "yes":
+                os.startfile(os.getcwd() + "/images")
             break
         if image_or_not == "no":
             break
@@ -247,6 +362,11 @@ def delete():
             time.sleep(x)
         print(" ")
 
+    message_main = Style.BRIGHT + "<<DELETION OF A PROBLEM>>"
+    prettywords()
+    message_main = Style.BRIGHT + "-------------------------------------------------------"
+    prettywords()
+    time.sleep(t)
     message_main = "From which subject do you wish to delete a problem?"
     prettywords()
     time.sleep(t)
@@ -374,7 +494,7 @@ def delete():
             cls()
             main_menu()
             break
-        if not answer3 == "main" and answer3 == "programming" and answer3 == "physics" and "mathematics":
+        if answer3 != "main" and answer3 != "programming" and answer3 != "physics" and answer3 != "mathematics":
             print(Fore.RED + "Invalid input! Please try again.")
 
 
@@ -463,7 +583,7 @@ def programming():
                 message_main = problems['programming'][answer3]['requirement']
                 prettywords()
                 if problems['programming'][answer3]['image'] == "yes":
-                    image = Image.open(answer3 + '.png')
+                    image = Image.open("images/" + answer3 + '.png')
                     image.show()
                 answer_problem_programming = input("stop")
                 break
@@ -510,7 +630,7 @@ def physics():
                 print("-------------------------------------------------------")
                 print(problems['physics'][answer3]['requirement'])
                 if problems['physics'][answer3]['image'] == "yes":
-                    image = Image.open(answer3 + '.png')
+                    image = Image.open("images/" + answer3 + '.png')
                     image.show()
                 answer_problem_programming = input("stop")
                 break
@@ -557,7 +677,7 @@ def mathematics():
                 print("-------------------------------------------------------")
                 print(problems['mathematics'][answer3]['requirement'])
                 if problems['mathematics'][answer3]['image'] == "yes":
-                    image = Image.open(answer3 + '.png')
+                    image = Image.open("images/" + answer3 + '.png')
                     image.show()
                 answer_problem_programming = input("stop")
                 break
