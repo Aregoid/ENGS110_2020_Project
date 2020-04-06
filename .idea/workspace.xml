@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5f5cb230-0f86-4626-a64d-ca4f39c43684" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -231,10 +230,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="9" y="13" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585847940544" />
-    <state x="366" y="201" key="com.intellij.ide.util.TipDialog" timestamp="1586196332809">
+    <state x="366" y="201" key="com.intellij.ide.util.TipDialog" timestamp="1586199524567">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="366" y="201" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586196332809" />
+    <state x="366" y="201" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586199524567" />
     <state x="492" y="281" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584884518088">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
