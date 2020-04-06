@@ -440,10 +440,6 @@ If you want to exit the app type [exit]
                 sys.stdout.flush()
                 time.sleep(x)
             print(" ")
-
-        prettywords(Style.BRIGHT + "<<DELETION OF A PROBLEM>>")
-        prettywords(Style.BRIGHT + "-------------------------------------------------------")
-        time.sleep(t)
         prettywords("Are you sure you want to delete this problem? Type [yes/no]")
         time.sleep(t)
         while True:
@@ -519,10 +515,11 @@ If you want to exit the app type [exit]
         message_main = "Please choose one of the subjects:"
         prettywords()
         time.sleep(t)
+        print()
         for key in problems.keys():
             print("--" + key + "--")
             time.sleep(t)
-
+        print()
         message_main = 'If you want to go back to main menu type ' + Style.BRIGHT + '[main]'
         prettywords()
 
@@ -583,9 +580,9 @@ If you want to exit the app type [exit]
                 if 'contributor' not in problems['programming'][answer3]:
                     prettywords(problems['programming'][answer3]['title'])
                 else:
-                    prettywords(problems['programming'][answer3]['title'] + " ~ contributed by " +
+                    prettywords(problems['programming'][answer3]['title'] + " ~ contributed by <" +
                                 problems['programming'][answer3][
-                                    'contributor'])
+                                    'contributor'] + ">")
                 prettywords("-------------------------------------------------------")
                 prettywords(problems['programming'][answer3]['requirement'])
                 if problems['programming'][answer3]['image'] == "yes":
@@ -599,7 +596,7 @@ Go back to <Programming> [programming]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
                 if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
-                    'contributor'] == username:
+                        'contributor'] == username:
                     prettywords("Delete the problem [del]")
                     prettywords("Edit the problem [edit]")
                 while True:
@@ -619,18 +616,25 @@ Go back to <Main Menu> [main]''')
                     if answer4 == "com":
                         add_comment()
                         break
-                    if problems['programming'][answer3]['contributor'] == username:
-                        if answer4 == "del":
-                            cls()
+                    if answer4 == "del":
+                        if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
+                                'contributor'] == username:
                             delete(answer3, "programming")
-                            breaker = 1
                             break
-                        if answer == "edit":
+                        else:
+                            print(Fore.RED + "Invalid input: Please try again.")
+                    if answer == "edit":
+                        if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
+                                'contributor'] == username:
+                            # edit function
                             break
+                        else:
+                            print(Fore.RED + "Invalid input: Please try again.")
                     if answer4 == "open":
                         print("Bla bla bla")
                         break
-                    else:
+                    if answer4 != "programming" and answer4 != "subjects" and answer4 != "main" and \
+                            answer4 != "com" and answer4 != "open" and answer4 != "del" and answer4 != "add":
                         print(Fore.RED + "Invalid input: Please try again.")
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
@@ -671,10 +675,9 @@ Go back to <Main Menu> [main]''')
                         prettywords(problems['physics'][answer3]['title'])
                     else:
                         prettywords(
-                            problems['physics'][answer3]['title'] + " ~ contributed by " + problems['physics'][answer3][
-                                'contributor'])
+                            problems['physics'][answer3]['title'] + " ~ contributed by <" + problems['physics'][answer3][
+                                'contributor'] + ">")
                     prettywords("-------------------------------------------------------")
-                    prettywords(problems['physics'][answer3]['requirement'])
                     prettywords(problems['physics'][answer3]['requirement'])
                     if problems['physics'][answer3]['image'] == "yes":
                         image = Image.open("images/" + answer3 + '.png')
@@ -687,7 +690,7 @@ Go back to <Physics> [physics]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
                     if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
-                        'contributor'] == username:
+                            'contributor'] == username:
                         prettywords("Delete the problem [del]")
                         prettywords("Edit the problem [edit]")
                     while True:
@@ -702,23 +705,30 @@ Go back to <Main Menu> [main]''')
                             break
                         if answer4 == "main":
                             cls()
-                            main()
+                            main_menu()
                             break
                         if answer4 == "com":
                             add_comment()
                             break
-                        if problems['physics'][answer3]['contributor'] == username:
-                            if answer4 == "del":
-                                cls()
+                        if answer4 == "del":
+                            if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
+                                    'contributor'] == username:
                                 delete(answer3, "physics")
-                                breaker = 1
                                 break
-                            if answer == "edit":
+                            else:
+                                print(Fore.RED + "Invalid input: Please try again.")
+                        if answer == "edit":
+                            if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
+                                 'contributor'] == username:
+                                # edit function
                                 break
+                            else:
+                                print(Fore.RED + "Invalid input: Please try again.")
                         if answer4 == "open":
                             print("Bla bla bla")
                             break
-                        else:
+                        if answer4 != "physics" and answer4 != "subjects" and answer4 != "main" and answer4 != "com" \
+                                and answer4 != "open" and answer4 != "del" and answer4 != "add":
                             print(Fore.RED + "Invalid input: Please try again.")
                 else:
                     print(Fore.RED + "Invalid input! Please try again.")
@@ -758,9 +768,9 @@ Go back to <Main Menu> [main]''')
                     if 'contributor' not in problems['mathematics'][answer3]:
                         prettywords(problems['mathematics'][answer3]['title'])
                     else:
-                        prettywords(problems['mathematics'][answer3]['title'] + " ~ contributed by " +
+                        prettywords(problems['mathematics'][answer3]['title'] + " ~ contributed by <" +
                                     problems['mathematics'][answer3][
-                                        'contributor'])
+                                        'contributor'] + ">")
                     prettywords(Style.BRIGHT + "-------------------------------------------------------")
                     print(problems['mathematics'][answer3]['requirement'])
                     if problems['mathematics'][answer3]['image'] == "yes":
@@ -789,23 +799,30 @@ Go back to <Main Menu> [main]''')
                             break
                         if answer4 == "main":
                             cls()
-                            main()
+                            main_menu()
                             break
                         if answer4 == "com":
                             add_comment()
                             break
-                        if problems['mathematics'][answer3]['contributor'] == username:
-                            if answer4 == "del":
-                                cls()
+                        if answer4 == "del":
+                            if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
+                                    'contributor'] == username:
                                 delete(answer3, "mathematics")
-                                breaker = 1
                                 break
-                            if answer == "edit":
+                            else:
+                                print(Fore.RED + "Invalid input: Please try again.")
+                        if answer == "edit":
+                            if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
+                                    'contributor'] == username:
+                                # edit function
                                 break
+                            else:
+                                print(Fore.RED + "Invalid input: Please try again.")
                         if answer4 == "open":
                             print("Bla bla bla")
                             break
-                        else:
+                        if answer4 != "mathematics" and answer4 != "subjects" and answer4 != "main" and \
+                                answer4 != "com" and answer4 != "open" and answer4 != "del" and answer4 != "add":
                             print(Fore.RED + "Invalid input: Please try again.")
                 else:
                     print(Fore.RED + "Invalid input! Please try again.")
