@@ -1,7 +1,12 @@
 import json
 import os
+import shutil
 import sys
 import time
+import stdiomask
+import tkinter as tk
+from tkinter import filedialog
+
 from PIL import Image
 from colorama import Style, Fore, init
 
@@ -95,7 +100,7 @@ def main():
                     username = input("Username>>")
                     if username in users['registered'].keys():
                         while True:
-                            password = input("Password>>")
+                            password = stdiomask.getpass(prompt="Password>>")
                             if password == users['registered'][username]['password']:
                                 print(Fore.GREEN + 'Login successful! Opening main menu...')
                                 time.sleep(0.5)
@@ -311,6 +316,8 @@ If you want to exit the app type [exit]
                 print(Fore.RED + "Invalid input. Please try again.")
 
     def add():
+        global file_path
+
         def prettywords(message_main):
             for char in message_main:
                 sys.stdout.write(char)
@@ -332,9 +339,11 @@ If you want to exit the app type [exit]
         prettywords(Style.BRIGHT + "-------------------------------------------------------")
         prettywords("From which subject do you wish to add a problem?")
         time.sleep(t)
+        print()
         for key in problems.keys():
             print("--" + key + "--")
             time.sleep(t)
+        print()
         prettywords("If you want to go back to main menu type " + Style.BRIGHT + "[main]")
         answer3 = input("Type you answer here >>").lower()
         if answer3 != "programming" and answer3 != "physics" and answer3 != "mathematics" and answer3 != "main":
@@ -346,7 +355,7 @@ If you want to exit the app type [exit]
             cls()
             main_menu()
         while True:
-            expl = input("Do you wish to see an explanation? [yes/no] >>")
+            expl = input("Do you wish to see an explanation of problem naming scheme? [yes/no] >> ")
             if expl == "yes":
                 explanation()
                 break
@@ -365,24 +374,29 @@ If you want to exit the app type [exit]
         while True:
             prettywords("Do you need to add an image? Type [yes/no]")
             image_or_not = input("Type the answer here >>").lower()
+            if image_or_not != "yes" and image_or_not != "no":
+                print(Fore.RED + "Invalid input! Please try again.")
             if image_or_not == "yes":
-                prettywords(
-                    "Please rename the image to " + "<" + codename + ".png>" + " and move it to " + os.getcwd() + "\images")
-                prettywords(
-                    "Please note! The image must be of .png format. If it's not, please convert it to .png before "
-                    "moving it to the given directory ")
-                answer = input("Do you want to open the directory right now? Type [yes/no] >>")
-                if answer == "yes":
-                    os.startfile(os.getcwd() + "/images")
-                break
-            if image_or_not == "no":
+                prettywords("Please select the file from the pop-up prompt.")
+                time.sleep(0.5)
+                root = tk.Tk()
+                root.withdraw()
+                file_path = filedialog.askopenfilename()
+
+                def add_image(path):
+                    filename = os.path.basename(path)
+                    shutil.copy(path, os.getcwd() + "/images")
+                    os.rename(os.getcwd() + "/images/" + filename, os.getcwd() + "/images/" + codename + ".png")
+
                 break
             else:
-                print(Fore.RED + "Invalid input! Please try again.")
+                break
         prettywords("Are you sure you want to add the problem? Type [yes/no]")
         while True:
             confirm = input("Type your answer here >>").lower()
             if confirm == "yes":
+                if image_or_not == "yes":
+                    add_image(file_path)
                 if answer3 == "mathematics":
                     problems['mathematics'][codename] = {}
                     problems['mathematics'][codename][
@@ -440,6 +454,7 @@ If you want to exit the app type [exit]
                 sys.stdout.flush()
                 time.sleep(x)
             print(" ")
+
         prettywords("Are you sure you want to delete this problem? Type [yes/no]")
         time.sleep(t)
         while True:
@@ -596,7 +611,7 @@ Go back to <Programming> [programming]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
                 if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
-                        'contributor'] == username:
+                    'contributor'] == username:
                     prettywords("Delete the problem [del]")
                     prettywords("Edit the problem [edit]")
                 while True:
@@ -618,14 +633,14 @@ Go back to <Main Menu> [main]''')
                         break
                     if answer4 == "del":
                         if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
-                                'contributor'] == username:
+                            'contributor'] == username:
                             delete(answer3, "programming")
                             break
                         else:
                             print(Fore.RED + "Invalid input: Please try again.")
                     if answer == "edit":
                         if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
-                                'contributor'] == username:
+                            'contributor'] == username:
                             # edit function
                             break
                         else:
@@ -675,7 +690,8 @@ Go back to <Main Menu> [main]''')
                         prettywords(problems['physics'][answer3]['title'])
                     else:
                         prettywords(
-                            problems['physics'][answer3]['title'] + " ~ contributed by <" + problems['physics'][answer3][
+                            problems['physics'][answer3]['title'] + " ~ contributed by <" +
+                            problems['physics'][answer3][
                                 'contributor'] + ">")
                     prettywords("-------------------------------------------------------")
                     prettywords(problems['physics'][answer3]['requirement'])
@@ -690,7 +706,7 @@ Go back to <Physics> [physics]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
                     if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
-                            'contributor'] == username:
+                        'contributor'] == username:
                         prettywords("Delete the problem [del]")
                         prettywords("Edit the problem [edit]")
                     while True:
@@ -712,14 +728,14 @@ Go back to <Main Menu> [main]''')
                             break
                         if answer4 == "del":
                             if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
-                                    'contributor'] == username:
+                                'contributor'] == username:
                                 delete(answer3, "physics")
                                 break
                             else:
                                 print(Fore.RED + "Invalid input: Please try again.")
                         if answer == "edit":
                             if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
-                                 'contributor'] == username:
+                                'contributor'] == username:
                                 # edit function
                                 break
                             else:
@@ -806,14 +822,14 @@ Go back to <Main Menu> [main]''')
                             break
                         if answer4 == "del":
                             if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
-                                    'contributor'] == username:
+                                'contributor'] == username:
                                 delete(answer3, "mathematics")
                                 break
                             else:
                                 print(Fore.RED + "Invalid input: Please try again.")
                         if answer == "edit":
                             if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
-                                    'contributor'] == username:
+                                'contributor'] == username:
                                 # edit function
                                 break
                             else:
