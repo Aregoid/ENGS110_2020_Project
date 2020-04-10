@@ -860,8 +860,11 @@ Go back to <Main Menu> [main]''')
             if confirmation == "yes":
                 now = datetime.now()
                 date_time = now.strftime("%d/%m/%Y %H:%M:%S")
-                problems[subject][problem]['comments'] = []
-                problems[subject][problem]['comments'].append(comment + " [" + username + date_time + "]")
+                if 'comments' in problems[subject][problem]:
+                    problems[subject][problem]['comments'].append(comment + " [" + username + date_time + "]")
+                else:
+                    problems[subject][problem]['comments'] = []
+                    problems[subject][problem]['comments'].append(comment + " [" + username + date_time + "]")
                 file1 = open("problems.json", "w")
                 file1.write(json.dumps(problems))
                 file1.close()
