@@ -6,9 +6,9 @@ import time
 import stdiomask
 import tkinter as tk
 from tkinter import filedialog
-
 from PIL import Image
 from colorama import Style, Fore, init
+from datetime import datetime
 
 
 def main():
@@ -20,7 +20,6 @@ def main():
     def cls():
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Detecting users/registration of new users
     if os.stat("users.json").st_size == 0:
         sample = "Do you want fancy typing animations like this?"
         for char in sample:
@@ -330,7 +329,7 @@ If you want to exit the app type [exit]
                 "In order to simplify the interaction between the machine and the user, each problem is given a unique "
                 "codename. A codename is a shortened, version of the title, that is much easier to type than the title "
                 "itself. When choosing the problem, only its codename has to be entered (see the example below)")
-            print('''                   Hello World [helloworld]
+            print('''                       Hello World [helloworld]
                          ^^^          ^^^
                         Title       Codename
                     ''')
@@ -516,27 +515,23 @@ If you want to exit the app type [exit]
                 print(Fore.RED + "Invalid input: Please try again.")
 
     def subjects():
-        def prettywords():
+        def prettywords(message_main):
             for char in message_main:
                 sys.stdout.write(char)
                 sys.stdout.flush()
                 time.sleep(x)
             print(" ")
 
-        message_main = Style.BRIGHT + "<<SUBJECTS>>"
-        prettywords()
-        message_main = Style.BRIGHT + "-------------------------------------------------------"
-        prettywords()
-        message_main = "Please choose one of the subjects:"
-        prettywords()
+        prettywords(Style.BRIGHT + "<<SUBJECTS>>")
+        prettywords(Style.BRIGHT + "-------------------------------------------------------")
+        prettywords("Please choose one of the subjects:")
         time.sleep(t)
         print()
         for key in problems.keys():
             print("--" + key + "--")
             time.sleep(t)
         print()
-        message_main = 'If you want to go back to main menu type ' + Style.BRIGHT + '[main]'
-        prettywords()
+        prettywords('If you want to go back to main menu type ' + Style.BRIGHT + '[main]')
 
         def question2():
             answer2 = input("Type your answer here >>").lower()
@@ -605,8 +600,8 @@ If you want to exit the app type [exit]
                     image.show()
                 print()
                 prettywords('''Choose an action:
-Open all comments [open]
-Add a comment [com]
+Open all comments [list]
+Add a comment [comment]
 Go back to <Programming> [programming]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
@@ -614,6 +609,7 @@ Go back to <Main Menu> [main]''')
                     'contributor'] == username:
                     prettywords("Delete the problem [del]")
                     prettywords("Edit the problem [edit]")
+                    print()
                 while True:
                     answer4 = input("Type your answer here >>")
                     if answer4 == "programming":
@@ -628,28 +624,30 @@ Go back to <Main Menu> [main]''')
                         cls()
                         main()
                         break
-                    if answer4 == "com":
-                        add_comment()
+                    if answer4 == "comment":
+                        add_comment(answer3, "programming")
+                        cls()
+                        programming()
                         break
                     if answer4 == "del":
                         if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
-                            'contributor'] == username:
+                                'contributor'] == username:
                             delete(answer3, "programming")
                             break
                         else:
                             print(Fore.RED + "Invalid input: Please try again.")
-                    if answer == "edit":
-                        if answer3 != "helloworld" and answer3 != "sumofprimes" and problems['programming'][answer3][
-                            'contributor'] == username:
-                            # edit function
-                            break
+                    if answer4 == "list":
+                        print()
+                        if "comments" not in problems['programming'][answer3]:
+                            prettywords("No comments yet...")
                         else:
-                            print(Fore.RED + "Invalid input: Please try again.")
-                    if answer4 == "open":
-                        print("Bla bla bla")
-                        break
+                            for value in problems['programming'][answer3]['comments']:
+                                print("-", value)
+                                time.sleep(t)
+                                print()
+                            prettywords("What to do now? Use the commands on the top of the page.")
                     if answer4 != "programming" and answer4 != "subjects" and answer4 != "main" and \
-                            answer4 != "com" and answer4 != "open" and answer4 != "del" and answer4 != "add":
+                            answer4 != "com" and answer4 != "list" and answer4 != "del" and answer4 != "add":
                         print(Fore.RED + "Invalid input: Please try again.")
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
@@ -700,8 +698,8 @@ Go back to <Main Menu> [main]''')
                         image.show()
                     print()
                     prettywords('''Choose an action:
-Open all comments [open]
-Add a comment [com]
+Open all comments [list]
+Add a comment [comment]
 Go back to <Physics> [physics]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
@@ -723,8 +721,10 @@ Go back to <Main Menu> [main]''')
                             cls()
                             main_menu()
                             break
-                        if answer4 == "com":
-                            add_comment()
+                        if answer4 == "comment":
+                            add_comment(answer3, 'physics')
+                            cls()
+                            physics()
                             break
                         if answer4 == "del":
                             if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
@@ -733,18 +733,18 @@ Go back to <Main Menu> [main]''')
                                 break
                             else:
                                 print(Fore.RED + "Invalid input: Please try again.")
-                        if answer == "edit":
-                            if answer3 != "isoatm" and answer3 != "basicc" and problems['physics'][answer3][
-                                'contributor'] == username:
-                                # edit function
-                                break
+                        if answer4 == "list":
+                            if "comments" not in problems['physics'][answer3]:
+                                prettywords("No comments yet...")
                             else:
-                                print(Fore.RED + "Invalid input: Please try again.")
-                        if answer4 == "open":
-                            print("Bla bla bla")
-                            break
+                                print()
+                                for value in problems['physics'][answer3]['comments']:
+                                    print("-", value)
+                                    time.sleep(t)
+                                    print()
+                                prettywords("What to do now? Use the commands on the top of the page.")
                         if answer4 != "physics" and answer4 != "subjects" and answer4 != "main" and answer4 != "com" \
-                                and answer4 != "open" and answer4 != "del" and answer4 != "add":
+                                and answer4 != "list" and answer4 != "del" and answer4 != "add":
                             print(Fore.RED + "Invalid input: Please try again.")
                 else:
                     print(Fore.RED + "Invalid input! Please try again.")
@@ -794,11 +794,12 @@ Go back to <Main Menu> [main]''')
                         image.show()
                     print()
                     prettywords('''Choose an action:
-Open all comments [open]
-Add a comment [com]
-Go back to <Physics> [physics]
+Open all comments [list]
+Add a comment [comment]
+Go back to <Mathematics> [mathematics]
 Go back to <Subjects> [subjects]
 Go back to <Main Menu> [main]''')
+                    print()
                     if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
                         'contributor'] == username:
                         prettywords("Delete the problem [del]")
@@ -817,8 +818,10 @@ Go back to <Main Menu> [main]''')
                             cls()
                             main_menu()
                             break
-                        if answer4 == "com":
-                            add_comment()
+                        if answer4 == "comment":
+                            add_comment(answer3, 'mathematics')
+                            cls()
+                            mathematics()
                             break
                         if answer4 == "del":
                             if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
@@ -827,24 +830,50 @@ Go back to <Main Menu> [main]''')
                                 break
                             else:
                                 print(Fore.RED + "Invalid input: Please try again.")
-                        if answer == "edit":
-                            if answer3 != "3g" and answer3 != "mbone" and problems['mathematics'][answer3][
-                                'contributor'] == username:
-                                # edit function
-                                break
+                        if answer4 == "list":
+                            print()
+                            if "comments" not in problems['mathematics'][answer3]:
+                                prettywords("No comments yet...")
                             else:
-                                print(Fore.RED + "Invalid input: Please try again.")
-                        if answer4 == "open":
-                            print("Bla bla bla")
-                            break
+                                for value in problems['mathematics'][answer3]['comments']:
+                                    print("-", value)
+                                    time.sleep(t)
+                                    print()
+                                prettywords("What to do now? Use the commands on the top of the page.")
                         if answer4 != "mathematics" and answer4 != "subjects" and answer4 != "main" and \
                                 answer4 != "com" and answer4 != "open" and answer4 != "del" and answer4 != "add":
                             print(Fore.RED + "Invalid input: Please try again.")
                 else:
                     print(Fore.RED + "Invalid input! Please try again.")
 
-    def add_comment():
-        pass
+    def add_comment(problem, subject):
+        def prettywords(message_main):
+            for char in message_main:
+                sys.stdout.write(char)
+                sys.stdout.flush()
+                time.sleep(x)
+            print(" ")
+
+        comment = input("Enter the comment >> ")
+        while True:
+            confirmation = input("Submit comment? Type [yes/no] >> ")
+            if confirmation == "yes":
+                now = datetime.now()
+                date_time = now.strftime("%d/%m/%Y %H:%M:%S")
+                problems[subject][problem]['comments'] = []
+                problems[subject][problem]['comments'].append(comment + " [" + username + date_time + "]")
+                file1 = open("problems.json", "w")
+                file1.write(json.dumps(problems))
+                file1.close()
+                prettywords("Comment added! Returning to <" + subject + ">...")
+                time.sleep(0.5)
+                break
+            elif confirmation == "no":
+                prettywords("Comment addition cancelled. Returning to <" + subject + ">...")
+                time.sleep(0.5)
+                break
+            else:
+                print(Fore.RED + "Invalid input! Please try again.")  #
 
     main_menu()
 
