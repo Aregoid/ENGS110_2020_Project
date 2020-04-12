@@ -63,7 +63,12 @@ def main():
         prettywords("But before we get started, please enter a preferred username and a password.")
         time.sleep(z)
         username = input("Type your username here >>")
-        password = input("Type your password here >>")
+        while True:
+            password = input("Type your password here >>")
+            if len(password) < 4:
+                print(Fore.MAGENTA + "The password must be at least 4 letters long. Please try again.")
+            else:
+                break
         users['registered'] = {}
         users['registered'][username] = {}
         users['registered'][username]['password'] = password
@@ -100,6 +105,7 @@ def main():
                     if username in users['registered'].keys():
                         while True:
                             password = stdiomask.getpass(prompt="Password>>")
+                            # password = input("Password>>")
                             if password == users['registered'][username]['password']:
                                 print(Fore.GREEN + 'Login successful! Opening main menu...')
                                 time.sleep(0.5)
@@ -173,8 +179,12 @@ def main():
                                            "one...")
                     else:
                         break
-                password = input("Type your password here >>")
-
+                while True:
+                    password = input("Type your password here >>")
+                    if len(password) < 4:
+                        print(Fore.MAGENTA + "The password must be at least 4 letters long. Please try again.")
+                    else:
+                        break
                 users['registered'][username] = {}
                 users['registered'][username]['password'] = password
                 users['registered'][username]['animation'] = [x, y, z, t]
@@ -367,6 +377,7 @@ If you want to exit the app type [exit]
                     filename = os.path.basename(path)
                     shutil.copy(path, os.getcwd() + "/images")
                     os.rename(os.getcwd() + "/images/" + filename, os.getcwd() + "/images/" + codename + ".png")
+
                 break
             else:
                 break
@@ -403,6 +414,7 @@ If you want to exit the app type [exit]
                 sys.stdout.flush()
                 time.sleep(x)
             print(" ")
+
         prettywords("Are you sure you want to delete this problem? Type [yes/no]")
         time.sleep(t)
         while True:
@@ -518,8 +530,9 @@ Go back to ''' + subject_name + ''' [''' + subject_name + ''']
 Go back to subjects [subjects]
 Go back to main menu [main]''')
                 if 'contributor' in problems[subject_name][answer3] and problems[subject_name][answer3][
-                        'contributor'] == username:
+                    'contributor'] == username:
                     prettywords("Delete the problem [del]")
+                    prettywords("Edit the problem [edit]")
                     print()
                 while True:
                     answer4 = input("Type your answer here >>")
@@ -545,8 +558,17 @@ Go back to main menu [main]''')
                         delete(answer3, subject_name)
                         view_subject(subject_name)
                         break
-                    if answer4 == "del" and 'contributor' not in problems[subject_name][answer3] and problems[
-                        subject_name][answer3]['contributor'] == username:
+                    if answer4 == "del" and ('contributor' not in problems[subject_name][answer3] or problems[
+                        subject_name][answer3]['contributor'] != username):
+                        print(Fore.RED + "Invalid input! Please try again.")
+                    if answer4 == "edit" and 'contributor' in problems[subject_name][answer3] and \
+                            problems[subject_name][answer3]['contributor'] == username:
+                        edit_problem(answer3, subject_name)
+                        cls()
+                        view_subject(subject_name)
+                        break
+                    if answer4 == "edit" and ('contributor' not in problems[subject_name][answer3] or problems[
+                        subject_name][answer3]['contributor'] != username):
                         print(Fore.RED + "Invalid input! Please try again.")
                     if answer4 == "list":
                         print()
@@ -558,8 +580,8 @@ Go back to main menu [main]''')
                                 time.sleep(t)
                                 print()
                             prettywords("What to do now? Use the commands on the top of the page.")
-                    if answer4 != subject_name and answer4 != "subjects" and answer4 != "main" and \
-                            answer4 != "comment" and answer4 != "list" and answer4 != "del" and answer4 != "add":
+                    if answer4 != subject_name and answer4 != "subjects" and answer4 != "main" and answer4 != "comment"\
+                            and answer4 != "list" and answer4 != "del" and answer4 != "add" and answer4 != "edit":
                         print(Fore.RED + "Invalid input: Please try again.")
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
@@ -595,6 +617,38 @@ Go back to main menu [main]''')
                 break
             else:
                 print(Fore.RED + "Invalid input! Please try again.")  #
+
+    def edit_problem(problem, subject):
+        print()
+        new_title = input("Enter a new title here >>")
+        while True:
+            new_codename = input("Enter a new codename >>")
+            if new_codename in problems[subject]:
+                print(Fore.MAGENTA + "This codename is already used. Try another one.")
+            else:
+                break
+        new_requirement = input("Enter a new condition here >>")
+        while True:
+            confirm = input("Save changes? Type [y/n] >>")
+            if confirm == "y":
+                if problems[subject][problem]['image'] == "yes":
+                    os.rename(os.getcwd() + "/images/" + problem + ".png", os.getcwd() + "/images/" + new_codename + ".png")
+                problems[subject][new_codename] = problems[subject][problem]
+                problems[subject][new_codename]['title'] = new_title
+                problems[subject][new_codename]['requirement'] = new_requirement
+                del problems[subject][problem]
+                file1 = open("problems.json", "w")
+                file1.write(json.dumps(problems))
+                file1.close()
+                print("Problem edit complete! Returning to <" + subject + ">")
+                time.sleep(0.5)
+                break
+            elif confirm == "n":
+                print("Problem edit cancelled. Returning to <" + subject + ">")
+                time.sleep(0.5)
+                break
+            else:
+                print(Fore.RED + "Invalid input! Please try again...")
 
     main_menu()
 
