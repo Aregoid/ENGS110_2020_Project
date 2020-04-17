@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f5cb230-0f86-4626-a64d-ca4f39c43684" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +55,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Quiz_Areg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="carwash.py func" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -63,11 +63,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../.." />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Quiz_Areg.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../carwash.py func.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -76,7 +76,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="file dialog" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="cawash" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -84,11 +84,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../.." />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/file dialog.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../cawash.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,9 +143,9 @@
       <list>
         <item itemvalue="Python.main" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.carwash.py func" />
+        <item itemvalue="Python.cawash" />
         <item itemvalue="Python.Quiz_Areg (1)" />
-        <item itemvalue="Python.file dialog" />
-        <item itemvalue="Python.Quiz_Areg" />
       </list>
     </recent_temporary>
   </component>
@@ -163,6 +163,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="275" y="22" key="#Inspections" timestamp="1587120081823">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="22" key="#Inspections/0.0.1366.728@0.0.1366.728" timestamp="1587120081823" />
     <state x="402" y="0" key="#MyProject" timestamp="1583936225836">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -191,38 +195,38 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1585847935138" />
-    <state width="1345" height="175" key="GridCell.Tab.0.bottom" timestamp="1586678694770">
+    <state width="1345" height="223" key="GridCell.Tab.0.bottom" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="175" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586678694770" />
-    <state width="1345" height="175" key="GridCell.Tab.0.center" timestamp="1586678694770">
+    <state width="1345" height="223" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.0.center" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="175" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586678694770" />
-    <state width="1345" height="175" key="GridCell.Tab.0.left" timestamp="1586678694770">
+    <state width="1345" height="223" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.0.left" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="175" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586678694770" />
-    <state width="1345" height="175" key="GridCell.Tab.0.right" timestamp="1586678694770">
+    <state width="1345" height="223" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.0.right" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="175" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586678694770" />
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1586535541193">
+    <state width="1345" height="223" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586535541193" />
-    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1586535541193">
+    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1586535541193" />
-    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1586535541193">
+    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1586535541193" />
-    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1586535541193">
+    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
+    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1587120227415">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1586535541193" />
+    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1587120227415" />
     <state x="474" y="86" key="RollbackChangesDialog" timestamp="1585293817670">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -231,10 +235,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="9" y="13" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585847940544" />
-    <state x="366" y="201" key="com.intellij.ide.util.TipDialog" timestamp="1586673638547">
+    <state x="234" y="205" key="com.intellij.ide.util.TipDialog" timestamp="1587107818990">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="366" y="201" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586673638547" />
+    <state x="234" y="205" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1587107818990" />
     <state x="492" y="281" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584884518088">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

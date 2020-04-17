@@ -231,12 +231,12 @@ If you want to exit the app type [exit]
             if answer1 == "add":
                 cls()
                 time.sleep(t)
-                add()
+                add_problem()
                 break
             if answer1 == "speed":
                 cls()
                 time.sleep(t)
-                speed()
+                configure_speed()
                 break
             if answer1 == "logout":
                 cls()
@@ -250,7 +250,7 @@ If you want to exit the app type [exit]
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
 
-    def speed():
+    def configure_speed():
         def prettywords(message_main):
             for char in message_main:
                 sys.stdout.write(char)
@@ -304,7 +304,7 @@ If you want to exit the app type [exit]
             else:
                 print(Fore.RED + "Invalid input. Please try again.")
 
-    def add():
+    def add_problem():
         global file_path
 
         def prettywords(message_main):
@@ -526,6 +526,7 @@ If you want to exit the app type [exit]
                 prettywords('''Choose an action:
 Open all comments [list]
 Add a comment [comment]
+Erase a comment [erase]
 Go back to ''' + subject_name + ''' [''' + subject_name + ''']
 Go back to subjects [subjects]
 Go back to main menu [main]''')
@@ -544,9 +545,12 @@ Go back to main menu [main]''')
                         cls()
                         subjects()
                         break
+                    if answer4 == "erase":
+                        delete_comments(answer3, subject_name)
+                        prettywords("What to do now? Use the commands on the top of the page.")
                     if answer4 == "main":
                         cls()
-                        main()
+                        main_menu()
                         break
                     if answer4 == "comment":
                         add_comment(answer3, subject_name)
@@ -574,14 +578,17 @@ Go back to main menu [main]''')
                         print()
                         if "comments" not in problems[subject_name][answer3]:
                             prettywords("No comments yet...")
+                            print()
+                            prettywords("What to do now? Use the commands on the top of the page.")
                         else:
                             for value in problems[subject_name][answer3]['comments']:
-                                print("-", value)
-                                time.sleep(t)
-                                print()
+                                for value1 in problems[subject_name][answer3]['comments'][value]:
+                                    print("-", value1)
+                                    time.sleep(t)
+                                    print()
                             prettywords("What to do now? Use the commands on the top of the page.")
-                    if answer4 != subject_name and answer4 != "subjects" and answer4 != "main" and answer4 != "comment"\
-                            and answer4 != "list" and answer4 != "del" and answer4 != "add" and answer4 != "edit":
+                    if answer4 != subject_name and answer4 != "subjects" and answer4 != "main" and answer4 != "comment" \
+                            and answer4 != "list" and answer4 != "del" and answer4 != "add" and answer4 != "edit" and answer4 != "erase":
                         print(Fore.RED + "Invalid input: Please try again.")
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
@@ -594,6 +601,7 @@ Go back to main menu [main]''')
                 time.sleep(x)
             print(" ")
 
+        print()
         comment = input("Enter the comment >> ")
         while True:
             confirmation = input("Submit comment? Type [yes/no] >> ")
@@ -601,10 +609,18 @@ Go back to main menu [main]''')
                 now = datetime.now()
                 date_time = now.strftime("%d/%m/%Y %H:%M:%S")
                 if 'comments' in problems[subject][problem]:
-                    problems[subject][problem]['comments'].append(comment + " [" + username + " , " + date_time + "]")
+                    if username in problems[subject][problem]['comments']:
+                        problems[subject][problem]['comments'][username].append(
+                            comment + " [" + username + " , " + date_time + "]")
+                    if username not in problems[subject][problem]['comments']:
+                        problems[subject][problem]['comments'][username] = []
+                        problems[subject][problem]['comments'][username].append(
+                            comment + " [" + username + " , " + date_time + "]")
                 else:
-                    problems[subject][problem]['comments'] = []
-                    problems[subject][problem]['comments'].append(comment + " [" + username + " , " + date_time + "]")
+                    problems[subject][problem]['comments'] = {}
+                    problems[subject][problem]['comments'][username] = []
+                    problems[subject][problem]['comments'][username].append(
+                        comment + " [" + username + " , " + date_time + "]")
                 file1 = open("problems.json", "w")
                 file1.write(json.dumps(problems))
                 file1.close()
@@ -632,7 +648,8 @@ Go back to main menu [main]''')
             confirm = input("Save changes? Type [y/n] >>")
             if confirm == "y":
                 if problems[subject][problem]['image'] == "yes":
-                    os.rename(os.getcwd() + "/images/" + problem + ".png", os.getcwd() + "/images/" + new_codename + ".png")
+                    os.rename(os.getcwd() + "/images/" + problem + ".png",
+                              os.getcwd() + "/images/" + new_codename + ".png")
                 problems[subject][new_codename] = problems[subject][problem]
                 problems[subject][new_codename]['title'] = new_title
                 problems[subject][new_codename]['requirement'] = new_requirement
@@ -640,15 +657,62 @@ Go back to main menu [main]''')
                 file1 = open("problems.json", "w")
                 file1.write(json.dumps(problems))
                 file1.close()
-                print("Problem edit complete! Returning to <" + subject + ">")
+                print("Problem edited! Returning to <" + subject + ">")
                 time.sleep(0.5)
                 break
             elif confirm == "n":
-                print("Problem edit cancelled. Returning to <" + subject + ">")
+                print("Process cancelled. Returning to <" + subject + ">")
                 time.sleep(0.5)
                 break
             else:
                 print(Fore.RED + "Invalid input! Please try again...")
+
+    def delete_comments(problem, subject):
+        def prettywords(message_main):
+            for char in message_main:
+                sys.stdout.write(char)
+                sys.stdout.flush()
+                time.sleep(x)
+            print(" ")
+
+        def is_number(num):
+            try:
+                float(num)
+                return True
+            except ValueError:
+                return False
+
+        if username in problems[subject][problem]['comments']:
+            i = 1
+            prettywords("Here are all your comments.")
+            print()
+            for comment in problems[subject][problem]['comments'][username]:
+                print(str(i) + ":" + comment)
+                i = i + 1
+                time.sleep(t)
+                print()
+            print("Type the number of the comment you want to delete. (You can cancel the process by typing [cancel])")
+            while True:
+                answer10 = input("Type your answer here >>")
+                if answer10 == "cancel":
+                    prettywords("Process cancelled...")
+                    print()
+                    break
+                elif is_number(answer10) is True:
+                    if int(answer10) < i:
+                        del problems[subject][problem]['comments'][username][int(answer10) - 1]
+                        file1 = open("problems.json", "w")
+                        file1.write(json.dumps(problems))
+                        file1.close()
+                        print("Comment deleted!")
+                        print()
+                        break
+                    else:
+                        print(Fore.RED + "Invalid input! Please try again.")
+                if answer10 != "cancel" and is_number(answer10) is False:
+                    print(Fore.RED + "Invalid input! Please try again.")
+        else:
+            print("You haven't commented on this problem yet.")
 
     main_menu()
 
