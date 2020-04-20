@@ -17,9 +17,11 @@ def main():
     with open('problems.json') as json_file:
         problems = json.load(json_file)
 
+    # Clear function
     def cls():
         os.system('cls' if os.name == 'nt' else 'clear')
 
+    # Default startup procedure, if no users detected
     if os.stat("users.json").st_size == 0:
         sample = "Do you want fancy typing animations like this?"
         for char in sample:
@@ -82,8 +84,9 @@ def main():
         time.sleep(z)
         prettywords("You will be shortly redirected to the main menu")
         time.sleep(1)
-        cls()
+        cls()  #
 
+    # if users are detected - login or sign up
     else:
         with open("users.json") as outfile:
             users = json.load(outfile)
@@ -200,6 +203,7 @@ def main():
                 cls()
                 break
 
+    # the main page, where the user accesses all the main actions
     def main_menu():
         def prettywords(message_main):
             for char in message_main:
@@ -250,6 +254,7 @@ If you want to exit the app type [exit]
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
 
+    # typing speed configuration page
     def configure_speed():
         def prettywords(message_main):
             for char in message_main:
@@ -304,6 +309,7 @@ If you want to exit the app type [exit]
             else:
                 print(Fore.RED + "Invalid input. Please try again.")
 
+    # problem addition page
     def add_problem():
         global file_path
 
@@ -313,16 +319,6 @@ If you want to exit the app type [exit]
                 sys.stdout.flush()
                 time.sleep(x)
             print(" ")
-
-        def explanation():
-            print(
-                "In order to simplify the interaction between the machine and the user, each problem is given a unique "
-                "codename. A codename is a shortened, version of the title, that is much easier to type than the title "
-                "itself. When choosing the problem, only its codename has to be entered (see the example below)")
-            print('''                       Hello World [helloworld]
-                         ^^^          ^^^
-                        Title       Codename
-                    ''')
 
         prettywords(Style.BRIGHT + "<<ADDITION OF A PROBLEM>>")
         prettywords(Style.BRIGHT + "-------------------------------------------------------")
@@ -344,23 +340,35 @@ If you want to exit the app type [exit]
                 break
             else:
                 break
-        while True:
-            expl = input("Do you wish to see an explanation of problem naming scheme? [yes/no] >> ")
-            if expl == "yes":
-                explanation()
-                break
-            elif expl == "no":
-                break
-            else:
-                print(Fore.RED + "Invalid input! Please try again.")
+        print()
         title = input("Please enter a title for the problem >>")
-        while True:
-            codename = input("Please enter a codename for the problem >>").lower()
-            if codename in problems[answer3]:
-                print(Fore.MAGENTA + "Codename already taken ;_; Please enter another one:")
-            else:
-                break
         requirement = input("Please enter a condition for the problem >>")
+
+        if answer3 == "physics":
+            check_number = 3
+            while True:
+                if "phys" + str(check_number) in problems['physics']:
+                    check_number = check_number + 1
+                else:
+                    codename = "phys" + str(check_number)
+                    break
+        if answer3 == "programming":
+            check_number = 3
+            while True:
+                if "pr" + str(check_number) in problems['programming']:
+                    check_number = check_number + 1
+                else:
+                    codename = "pr" + str(check_number)
+                    break
+        if answer3 == "mathematics":
+            check_number = 3
+            while True:
+                if "math" + str(check_number) in problems['mathematics']:
+                    check_number = check_number + 1
+                else:
+                    codename = "math" + str(check_number)
+                    break
+
         while True:
             prettywords("Do you need to add an image? Type [yes/no]")
             image_or_not = input("Type the answer here >>").lower()
@@ -407,6 +415,7 @@ If you want to exit the app type [exit]
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
 
+    # problem deletion page
     def delete(problem, subject):
         def prettywords(message_main):
             for char in message_main:
@@ -437,6 +446,7 @@ If you want to exit the app type [exit]
             else:
                 print(Fore.RED + "Invalid input: Please try again.")
 
+    # The page that lists the subjects
     def subjects():
         def prettywords(message_main):
             for char in message_main:
@@ -476,6 +486,7 @@ If you want to exit the app type [exit]
 
         question2()
 
+    # The page that lists problems in the chosen subject
     def view_subject(subject_name):
         def prettywords(message_main):
             for char in message_main:
@@ -557,6 +568,8 @@ Go back to main menu [main]''')
                         cls()
                         view_subject(subject_name)
                         break
+                    # The following 4 "if"s check if the person viewing the problem is its creator. If yes, they view
+                    # "edit" and "delete" funtions
                     if answer4 == "del" and 'contributor' in problems[subject_name][answer3] and problems[subject_name][
                         answer3]['contributor'] == username:
                         delete(answer3, subject_name)
@@ -574,6 +587,7 @@ Go back to main menu [main]''')
                     if answer4 == "edit" and ('contributor' not in problems[subject_name][answer3] or problems[
                         subject_name][answer3]['contributor'] != username):
                         print(Fore.RED + "Invalid input! Please try again.")
+
                     if answer4 == "list":
                         print()
                         if "comments" not in problems[subject_name][answer3]:
@@ -593,6 +607,7 @@ Go back to main menu [main]''')
             else:
                 print(Fore.RED + "Invalid input! Please try again.")
 
+    # Comment addition function. Appears only when users view a problem that they have created.
     def add_comment(problem, subject):
         def prettywords(message_main):
             for char in message_main:
@@ -634,25 +649,16 @@ Go back to main menu [main]''')
             else:
                 print(Fore.RED + "Invalid input! Please try again.")  #
 
+    # Comment edition function. Appears only when users view a problem that they have created.
     def edit_problem(problem, subject):
         print()
         new_title = input("Enter a new title here >>")
-        while True:
-            new_codename = input("Enter a new codename >>")
-            if new_codename in problems[subject]:
-                print(Fore.MAGENTA + "This codename is already used. Try another one.")
-            else:
-                break
         new_requirement = input("Enter a new condition here >>")
         while True:
             confirm = input("Save changes? Type [y/n] >>")
             if confirm == "y":
-                if problems[subject][problem]['image'] == "yes":
-                    os.rename(os.getcwd() + "/images/" + problem + ".png",
-                              os.getcwd() + "/images/" + new_codename + ".png")
-                problems[subject][new_codename] = problems[subject][problem]
-                problems[subject][new_codename]['title'] = new_title
-                problems[subject][new_codename]['requirement'] = new_requirement
+                problems[subject][problem]['title'] = new_title
+                problems[subject][problem]['requirement'] = new_requirement
                 del problems[subject][problem]
                 file1 = open("problems.json", "w")
                 file1.write(json.dumps(problems))
@@ -667,6 +673,7 @@ Go back to main menu [main]''')
             else:
                 print(Fore.RED + "Invalid input! Please try again...")
 
+    # Comment deletion function
     def delete_comments(problem, subject):
         def prettywords(message_main):
             for char in message_main:
