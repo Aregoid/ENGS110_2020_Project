@@ -21,7 +21,7 @@ def main():
     def cls():
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Default startup procedure, if no users detected
+    # No users are detected: default startup
     if os.stat("users.json").st_size == 0:
         sample = "Do you want fancy typing animations like this?"
         for char in sample:
@@ -86,7 +86,7 @@ def main():
         time.sleep(1)
         cls()  #
 
-    # if users are detected - login or sign up
+    # if users are detected: login or sign up
     else:
         with open("users.json") as outfile:
             users = json.load(outfile)
@@ -99,6 +99,7 @@ def main():
             answer = input("Type your answer here>>").lower()
             if answer != "y" and answer != "n":
                 print(Fore.RED + "Invalid input: type [y] or [n]")
+            # login procedure
             if answer == "y":
                 cls()
                 while True:
@@ -131,6 +132,7 @@ def main():
                                     sys.exit(0)
                     if username not in users['registered'].keys():
                         print(Fore.RED + 'No such user exists. Please reenter the username...')
+            # Sign-up procedure
             if answer == "n":
                 cls()
                 sample = "Do you want fancy typing animations like this?"
@@ -594,6 +596,10 @@ Go back to main menu [main]''')
                             prettywords("No comments yet...")
                             print()
                             prettywords("What to do now? Use the commands on the top of the page.")
+                        elif bool(problems[subject_name][answer3]['comments']):
+                            prettywords("No comments yet...")
+                            print()
+                            prettywords("What to do now? Use the commands on the top of the page.")
                         else:
                             for value in problems[subject_name][answer3]['comments']:
                                 for value1 in problems[subject_name][answer3]['comments'][value]:
@@ -689,7 +695,11 @@ Go back to main menu [main]''')
             except ValueError:
                 return False
 
-        if username in problems[subject][problem]['comments']:
+        if 'comments' not in problems[subject][problem]:
+            print()
+            print("No comments yet...")
+            print()
+        elif username in problems[subject][problem]['comments'] and bool(problems[subject][problem]['comments'][username]):
             i = 1
             prettywords("Here are all your comments.")
             print()
@@ -719,7 +729,9 @@ Go back to main menu [main]''')
                 if answer10 != "cancel" and is_number(answer10) is False:
                     print(Fore.RED + "Invalid input! Please try again.")
         else:
+            print()
             print("You haven't commented on this problem yet.")
+            print()
 
     main_menu()
 
