@@ -241,6 +241,18 @@ If you want to exit the app type [exit]
             print(Fore.RED + "Invalid input! Please try again.")
 
 
+# Sets animation preference. Used in configure_speed
+def set_preference(a, b, c, username):
+    with open("users.json") as new_file:
+        users = json.load(new_file)
+        users['registered'][username]['animation'][0] = a
+        users['registered'][username]['animation'][1] = b
+        users['registered'][username]['animation'][2] = c
+        file = open("users.json", "w")
+        file.write(json.dumps(users))
+        file.close()
+
+
 # typing speed configuration page
 def configure_speed(text_speed, long_pause, short_pause, username, problems):
     def prettywords(message_main):
@@ -253,17 +265,6 @@ def configure_speed(text_speed, long_pause, short_pause, username, problems):
     prettywords(Style.BRIGHT + "<<ANIMATION SPEED CONFIGURATION>>")
     prettywords(Style.BRIGHT + "-------------------------------------------------------")
     time.sleep(short_pause)
-
-    def set_preference(a, b, c):
-        with open("users.json") as new_file:
-            users = json.load(new_file)
-            users['registered'][username]['animation'][0] = a
-            users['registered'][username]['animation'][1] = b
-            users['registered'][username]['animation'][2] = c
-            file = open("users.json", "w")
-            file.write(json.dumps(users))
-            file.close()
-
     prettywords("Please select one of the following presets: [instant] ~ [fast] ~ [normal] ~ [slow]")
     time.sleep(short_pause)
     prettywords("If you want to go back to Main Menu type [main]")
@@ -271,13 +272,13 @@ def configure_speed(text_speed, long_pause, short_pause, username, problems):
         answer = input("Type your answer here >>")
         if answer != "main":
             if answer == "instant":
-                set_preference(0, 0, 0)
+                set_preference(0, 0, 0, username)
             if answer == "fast":
-                set_preference(0.02, 0.5, 0.2)
+                set_preference(0.02, 0.5, 0.2, username)
             if answer == "normal":
-                set_preference(0.03, 0.75, 0.3)
+                set_preference(0.03, 0.75, 0.3, username)
             if answer == "slow":
-                set_preference(0.04, 1, 0.5)
+                set_preference(0.04, 1, 0.5, username)
             prettywords("Preference set! Please log in again to see changes.")
             time.sleep(short_pause)
             prettywords("Returning to main menu...")
@@ -476,6 +477,16 @@ def subjects(text_speed, long_pause, short_pause, username, problems):
     question2()
 
 
+# Checks if there is a user that has commented
+def check_if_users_have_commented(subject_name, problem, problems):
+    if "comments" not in problems[subject_name][problem] or not problems[subject_name][problem]['comments']:
+        return False
+    else:
+        for value in problems[subject_name][problem]['comments']:
+            if problems[subject_name][problem]['comments'][value]:
+                return True
+
+
 # The page that lists problems in the chosen subject
 def view_subject(subject_name, text_speed, long_pause, short_pause, username, problems):
     def prettywords(message_main):
@@ -558,8 +569,8 @@ Go back to main menu [main]''')
                     cls()
                     view_subject(subject_name, text_speed, long_pause, short_pause, username, problems)
                     break
-                # The following 4 "if"s check if the person viewing the problem is its creator. If yes, they view
-                # "edit" and "delete" funtions
+                # The following 4 "if"s check if the person viewing the problem is its creator. If yes, they can access
+                # "edit" and "delete" functions
                 if answer4 == "del" and 'contributor' in problems[subject_name][answer3] and problems[subject_name][
                     answer3]['contributor'] == username:
                     delete(answer3, subject_name, text_speed, short_pause, problems)
@@ -580,20 +591,16 @@ Go back to main menu [main]''')
 
                 if answer4 == "list":
                     print()
-                    if "comments" not in problems[subject_name][answer3]:
-                        prettywords("No comments yet...")
-                        print()
-                        prettywords("What to do now? Use the commands on the top of the page.")
-                    elif bool(problems[subject_name][answer3]['comments']):
-                        prettywords("No comments yet...")
-                        print()
-                        prettywords("What to do now? Use the commands on the top of the page.")
-                    else:
+                    if check_if_users_have_commented(subject_name, answer3, problems):
                         for value in problems[subject_name][answer3]['comments']:
                             for value1 in problems[subject_name][answer3]['comments'][value]:
                                 print("-", value1)
                                 time.sleep(short_pause)
                                 print()
+                        prettywords("What to do now? Use the commands on the top of the page.")
+                    else:
+                        prettywords("No comments yet...")
+                        print()
                         prettywords("What to do now? Use the commands on the top of the page.")
                 if answer4 != subject_name and answer4 != "subjects" and answer4 != "main" and answer4 != "comment" \
                         and answer4 != "list" and answer4 != "del" and answer4 != "add" and answer4 != "edit" and answer4 != "erase":
@@ -655,7 +662,6 @@ def edit_problem(problem, subject, problems):
         if confirm == "y":
             problems[subject][problem]['title'] = new_title
             problems[subject][problem]['requirement'] = new_requirement
-            del problems[subject][problem]
             file1 = open("problems.json", "w")
             file1.write(json.dumps(problems))
             file1.close()
